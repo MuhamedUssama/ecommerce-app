@@ -44,7 +44,27 @@ void main() {
       final result = await dataSource.SignIn(email: email, password: password);
 
       expect(result.isLeft(), true);
-      // expect(result.fold((response) => response, (error) => null), isA<SignInResponse>());
+      // expect(result.fold((response) => response, (error) => ''), isA<SignInResponse>());
+    });
+
+    test(
+        'Test fail (right) if SignIn throw an exception if email and password is empty',
+        () async {
+      when(
+        apiManager.PostRequestRawData(
+          Endpoint.signInEndpoint,
+          body: {email: "", password: ""},
+        ),
+      ).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: Endpoint.signInEndpoint),
+        ),
+      );
+
+      final result = await dataSource.SignIn(email: "", password: "");
+
+      // expect(result.fold((response) => response, (error) => ''), isA<String>());
+      expect(result.isRight(), true);
     });
   });
 }
