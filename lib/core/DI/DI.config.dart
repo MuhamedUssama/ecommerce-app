@@ -87,11 +87,11 @@ import '../../features/products_screen/data/repositoryimpl/ProductsRepoImpl.dart
 import '../../features/products_screen/domain/repository/ProductsRepo.dart'
     as _i32;
 import '../../features/products_screen/domain/usecase/AddToCartUseCase.dart'
-    as _i45;
-import '../../features/products_screen/domain/usecase/AddToWishlistUseCase.dart'
     as _i43;
-import '../../features/products_screen/domain/usecase/GetProductsOfCategoryUseCase.dart'
+import '../../features/products_screen/domain/usecase/AddToWishlistUseCase.dart'
     as _i44;
+import '../../features/products_screen/domain/usecase/GetProductsOfCategoryUseCase.dart'
+    as _i45;
 import '../../features/products_screen/presentation/manager/products_cubit.dart'
     as _i48;
 import '../network/api_manager.dart' as _i3;
@@ -152,12 +152,12 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i36.GetCategoriesUseCase>(),
           gh<_i35.GetBrandsUseCase>(),
         ));
-    gh.factory<_i43.AddToWishlistUseCase>(
-        () => _i43.AddToWishlistUseCase(gh<_i32.ProductsRepo>()));
-    gh.factory<_i44.GetProductsOfCategoryUseCase>(
-        () => _i44.GetProductsOfCategoryUseCase(gh<_i32.ProductsRepo>()));
-    gh.factory<_i45.AddToCartUseCase>(
-        () => _i45.AddToCartUseCase(gh<_i32.ProductsRepo>()));
+    gh.factory<_i43.AddToCartUseCase>(
+        () => _i43.AddToCartUseCase(gh<_i32.ProductsRepo>()));
+    gh.factory<_i44.AddToWishlistUseCase>(
+        () => _i44.AddToWishlistUseCase(gh<_i32.ProductsRepo>()));
+    gh.factory<_i45.GetProductsOfCategoryUseCase>(
+        () => _i45.GetProductsOfCategoryUseCase(gh<_i32.ProductsRepo>()));
     gh.factory<_i46.CategoriesCubit>(() => _i46.CategoriesCubit(
           gh<_i36.GetCategoriesUseCase>(),
           gh<_i29.GetSubCategoriesUseCase>(),
@@ -165,9 +165,9 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i47.SignupCubit>(
         () => _i47.SignupCubit(gh<_i40.SignUpUseCase>()));
     gh.factory<_i48.ProductsCubit>(() => _i48.ProductsCubit(
-          gh<_i45.AddToCartUseCase>(),
-          gh<_i44.GetProductsOfCategoryUseCase>(),
-          gh<_i43.AddToWishlistUseCase>(),
+          gh<_i43.AddToCartUseCase>(),
+          gh<_i45.GetProductsOfCategoryUseCase>(),
+          gh<_i44.AddToWishlistUseCase>(),
         ));
     return this;
   }
