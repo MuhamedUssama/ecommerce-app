@@ -17,7 +17,7 @@ void main() {
     late String email;
     late String password;
 
-    setUp(() {
+    setUpAll(() {
       email = "test@example.com";
       password = "Mohamed@123456";
       apiManager = MockApiManager();
@@ -47,13 +47,11 @@ void main() {
       // expect(result.fold((response) => response, (error) => ''), isA<SignInResponse>());
     });
 
-    test(
-        'Test fail (right) if SignIn throw an exception if email and password is empty',
-        () async {
+    test('Test fail (right) if SignIn throw an exception', () async {
       when(
         apiManager.PostRequestRawData(
           Endpoint.signInEndpoint,
-          body: {email: "", password: ""},
+          body: {"email": "", "password": ""},
         ),
       ).thenThrow(
         DioException(
@@ -64,6 +62,38 @@ void main() {
       final result = await dataSource.SignIn(email: "", password: "");
 
       // expect(result.fold((response) => response, (error) => ''), isA<String>());
+      expect(result.isRight(), true);
+    });
+
+    test(
+        'Test fail (right) if API throws an exception for empty email and password',
+        () async {
+      when(
+        apiManager.PostRequestRawData(
+          Endpoint.signInEndpoint,
+          body: {"email": "", "password": ""},
+        ),
+      ).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: Endpoint.signInEndpoint),
+          response: Response(
+            requestOptions: RequestOptions(path: Endpoint.signInEndpoint),
+            statusCode: 400,
+            data: {
+              "message": "fail",
+              "errors": {
+                "value": "",
+                "msg": "Email is required",
+                "param": "email",
+                "location": "body"
+              }
+            },
+          ),
+        ),
+      );
+
+      final result = await dataSource.SignIn(email: "", password: "");
+
       expect(result.isRight(), true);
     });
   });
